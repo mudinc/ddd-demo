@@ -21,13 +21,13 @@ public class SnackMachineService {
         return snackMachineRepository.findById(id);
     }
 
-    /*
-    public void createMachine(Product product);
-    
-    public void updateProduct(String id, Product product);
-    public void deleteProduct(String id);
-    public Collection<Product> getProducts();
-    */
+    public SnackMachine save(SnackMachine machine){
+        
+        return this.snackMachineRepository.save(machine);
+    }
 
+    public void delete(Long id){
+        this.snackMachineRepository.deleteById(id);
+    }
 
 }

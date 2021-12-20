@@ -5,13 +5,15 @@ import java.net.URISyntaxException;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
-
+import com.ddddemo.demo.models.SnackMachine;
 import com.ddddemo.demo.services.SnackMachineService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,4 +47,21 @@ public class SnackMachineController {
             })
             .orElse(ResponseEntity.notFound().build());
     }
+    @PostMapping("/snackmachines")
+    public ResponseEntity<SnackMachine> createMachine(@RequestBody SnackMachine machine){
+        logger.info("creating new machine with name:{}", machine.getMachine_name());
+        SnackMachine newMachine=this.snackMachineService.save(machine);
+
+        try {
+            return ResponseEntity
+                       .created(new URI("/snackmachine/"+newMachine.getId()))
+                       .eTag(newMachine.getVersion())
+                       .body(newMachine);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            //TODO: handle exception
+        }
+    }
+
+
 }
