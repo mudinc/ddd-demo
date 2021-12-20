@@ -1,0 +1,7 @@
+POST http://localhost:8080/api/snackmachine HTTP/1.1
+
+content-type: application/json
+{
+    "machine_name": "sample",
+    "machine_description": "Wed, 21 Oct 2015 18:27:50 GMT"
+}
